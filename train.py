@@ -145,7 +145,7 @@ def train_net(net,
                     sum_loss = loss1.item() + loss2.item() + loss3.item()
                     epoch_loss += sum_loss
 
-                    pbar.set_postfix(**{'loss (batch)': sum_loss.item()})
+                    pbar.set_postfix(**{'loss (batch)': sum_loss})
 
                     optimizer.zero_grad()
                     sum_loss.backward()
