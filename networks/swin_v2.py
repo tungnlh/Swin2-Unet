@@ -1109,6 +1109,7 @@ class unet_swin(nn.Module):
         self.weight_deconv5 = self._make_bilinear_weights(16, 1).cuda()
 
         # init weights
+        pretrained = True
         self.apply(self._init_weights)
         if pretrained is not False:
             vgg16 = sio.loadmat('./models/vgg16convs.mat')
