@@ -20,6 +20,7 @@ import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 import numpy as np
+import scipy.io as sio
 
 model_urls = {
     "swinv2_tiny_window16_256": "/kaggle/input/swinv2w/swinv2_tiny_patch4_window8_256.pth",
