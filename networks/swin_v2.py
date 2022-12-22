@@ -1049,7 +1049,7 @@ class SegmentationHead(nn.Sequential):
 
 class unet_swin(nn.Module):
 
-    def __init__(self,size="small",img_size=256 #"base" "large"):
+    def __init__(self,size="small",img_size=256): #"base" "large"):
         super().__init__()
 
         self.encoder = swin_v2(size=size,img_size=img_size)
