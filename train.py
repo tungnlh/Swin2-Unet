@@ -143,7 +143,7 @@ def train_net(net,
                     loss2 = loss_fn(edge, true_masks)
                     loss3 = loss_fn(fused, true_masks)
                     sum_loss = loss1.item() + loss2.item() + loss3.item()
-                    epoch_loss += mean_loss
+                    epoch_loss += sum_loss
 
                     pbar.set_postfix(**{'loss (batch)': sum_loss.item()})
 
