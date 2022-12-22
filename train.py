@@ -21,10 +21,10 @@ from util import BinaryDiceLoss
 from torch.utils.data import DataLoader, random_split
 from utils.dataloader import get_loader,test_dataset
 
-train_img_dir = '/content/datasets/train/images/'
-train_mask_dir = '/content/datasets/train/masks/'
-val_img_dir = '/content/datasets/test/images/'
-val_mask_dir = '/content/datasets/test/masks/'
+train_img_dir = '/kaggle/working/datasets/train/images/'
+train_mask_dir = '/kaggle/working/datasets/train/masks/'
+val_img_dir = '/kaggle/working/datasets/test/images/'
+val_mask_dir = '/kaggle/working/datasets/test/masks/'
 dir_checkpoint = 'models/'
 
 
