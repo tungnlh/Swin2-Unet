@@ -142,13 +142,13 @@ def train_net(net,
                     loss1 = loss_fn(masks_pred, true_masks)
                     loss2 = loss_fn(edge, true_masks)
                     loss3 = loss_fn(fused, true_masks)
-                    mean_loss = (loss1.item() + loss2.item() + loss3.item())/3
+                    sum_loss = loss1.item() + loss2.item() + loss3.item()
                     epoch_loss += mean_loss
 
-                    pbar.set_postfix(**{'loss (batch)': mean_loss.item()})
+                    pbar.set_postfix(**{'loss (batch)': sum_loss.item()})
 
                     optimizer.zero_grad()
-                    mean_loss.backward()
+                    sum_loss.backward()
                     nn.utils.clip_grad_value_(net.parameters(), 0.1)
                     optimizer.step()
 
