@@ -139,16 +139,16 @@ def train_net(net,
                     fused = torch.squeeze(fused)
                     
                     true_masks = torch.squeeze(true_masks)
-                    loss1 = loss_fn(masks_pred, true_masks)
-                    loss2 = loss_fn(edge, true_masks)
-                    loss3 = loss_fn(fused, true_masks)
-                    sum_loss = loss1.item() + loss2.item() + loss3.item()
-                    epoch_loss += sum_loss
+                    loss = loss_fn(fused, true_masks)
+                    #loss2 = loss_fn(edge, true_masks)
+                    #loss3 = loss_fn(fused, true_masks)
+                    #sum_loss = loss1.item() + loss2.item() + loss3.item()
+                    epoch_loss += loss.item()
 
-                    pbar.set_postfix(**{'loss (batch)': sum_loss})
+                    pbar.set_postfix(**{'loss (batch)': loss.item()})
 
                     optimizer.zero_grad()
-                    sum_loss.backward()
+                    loss.backward()
                     nn.utils.clip_grad_value_(net.parameters(), 0.1)
                     optimizer.step()
 
