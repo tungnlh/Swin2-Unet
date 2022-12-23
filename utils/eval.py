@@ -57,7 +57,7 @@ def eval_net(net, loader, device, n_class=1):
             else:
                 pred = torch.sigmoid(fused)
                 pred = (pred > 0.5).float()
-                l, n = dice_coeff(pred, fused)
+                l, n = dice_coeff(pred, true_masks)
                 tot += l
                 N += n
             pbar.update()
