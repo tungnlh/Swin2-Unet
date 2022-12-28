@@ -228,7 +228,7 @@ if __name__ == '__main__':
     #net = UNet(128, 1)
     #net = nn.DataParallel(net, device_ids=[0])
     #net = net.to(device)
-    net = unet_swin(img_size=512,size="swinv2_small_window16_256").cuda()
+    net = unet_swin(img_size=512,size="swinv2_tiny_window8_256").cuda()
     #net.load_from(config)
     
     if args.load:
