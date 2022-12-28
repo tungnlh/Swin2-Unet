@@ -21,18 +21,18 @@ pred_path = '/kaggle/working/output/pred'
 os.makedirs(pred_path, exist_ok=True)
 gt_path = '/kaggle/working/output/gt'
 os.makedirs(gt_path, exist_ok=True)
-edg_path = '/kaggle/working/output/edg'
-os.makedirs(edg_path, exist_ok=True)
-fus_path = '/kaggle/working/output/fus'
-os.makedirs(fus_path, exist_ok=True)
+# edg_path = '/kaggle/working/output/edg'
+# os.makedirs(edg_path, exist_ok=True)
+# fus_path = '/kaggle/working/output/fus'
+# os.makedirs(fus_path, exist_ok=True)
 def eval_net(net, loader, device, n_class=1):
     """Evaluation without the densecrf with the dice coefficient"""
     net.eval()
     mask_type = torch.float32 if n_class == 1 else torch.long
     n_val = len(loader)
     pred_idx=0
-    edg_idx=0
-    fus_idx=0
+#     edg_idx=0
+#     fus_idx=0
     gt_idx=0
 
     with tqdm(total=n_val, desc='Validation round', unit='batch', leave=False) as pbar:
@@ -46,14 +46,14 @@ def eval_net(net, loader, device, n_class=1):
             imgs = imgs.to(device=device, dtype=torch.float32)
             true_masks = true_masks.to(device=device, dtype=mask_type)
 
-            mask_pred, edge, fused = net(imgs)
+            mask_pred = net(imgs)
             pred = torch.sigmoid(mask_pred)
             pred = (pred > 0.2).float()
             
-            edg = torch.sigmoid(edge)
-            edg = (edg > 0.2).float()
-            fus = torch.sigmoid(fused)
-            fus = (fus > 0.2).float()
+#             edg = torch.sigmoid(edge)
+#             edg = (edg > 0.2).float()
+#             fus = torch.sigmoid(fused)
+#             fus = (fus > 0.2).float()
             
             for img in pred:
                 img = img.squeeze(0).cpu().numpy()
@@ -61,16 +61,16 @@ def eval_net(net, loader, device, n_class=1):
                 img.save(pred_path+'/'+str(pred_idx)+'.png')
                 pred_idx += 1
                 
-            for img in edg:
-                img = img.squeeze(0).cpu().numpy()
-                img = Image.fromarray((img * 255).astype(np.uint8))
-                img.save(edg_path+'/'+str(edg_idx)+'.png')
-                edg_idx += 1
-            for img in pred:
-                img = img.squeeze(0).cpu().numpy()
-                img = Image.fromarray((img * 255).astype(np.uint8))
-                img.save(fus_path+'/'+str(fus_idx)+'.png')
-                fus_idx += 1
+#             for img in edg:
+#                 img = img.squeeze(0).cpu().numpy()
+#                 img = Image.fromarray((img * 255).astype(np.uint8))
+#                 img.save(edg_path+'/'+str(edg_idx)+'.png')
+#                 edg_idx += 1
+#             for img in pred:
+#                 img = img.squeeze(0).cpu().numpy()
+#                 img = Image.fromarray((img * 255).astype(np.uint8))
+#                 img.save(fus_path+'/'+str(fus_idx)+'.png')
+#                 fus_idx += 1
                 
             for img in true_masks:
                 img = img.squeeze(0).cpu().numpy()
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # net.to(device=device)
     
     #net = ViT_seg(config, img_size=args.size, num_classes=1).cuda()
-    net = unet_swin(img_size=512,size="swinv2_small_window16_256").cuda()
+    net = unet_swin(img_size=512,size="swinv2_tiny_window8_256").cuda()
     
     if args.load:
         net.load_state_dict(
