@@ -22,10 +22,10 @@ from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 import numpy as np
 
 model_urls = {
-    "swinv2_tiny_window16_256": "/content/drive/MyDrive/Segmentation/Swin-Unet/pretrained_ckpt/swinv2_tiny_patch4_window8_256.pth",
-    "swinv2_small_window8_256": "/content/drive/MyDrive/Segmentation/Swin-Unet/pretrained_ckpt/swinv2_small_patch4_window8_256.pth",
-    "swinv2_small_window16_256": "/content/drive/MyDrive/Segmentation/Swin-Unet/pretrained_ckpt/swinv2_small_patch4_window16_256.pth",
-    "swinv2_base_window16_256": "/content/drive/MyDrive/Segmentation/Swin-Unet/pretrained_ckpt/swinv2_base_patch4_window16_256.pth",
+    "swinv2_tiny_window16_256": "/kaggle/input/swinv2w/swinv2_tiny_patch4_window8_256.pth",
+    "swinv2_small_window8_256": "/kaggle/input/swinv2w/swinv2_small_patch4_window8_256.pth",
+    "swinv2_small_window16_256": "/kaggle/input/swinv2w/swinv2_small_patch4_window16_256.pth",
+    "swinv2_base_window16_256": "/kaggle/input/swinv2w/swinv2_base_patch4_window16_256.pth",
 
 }
 
