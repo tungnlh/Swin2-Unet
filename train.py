@@ -25,7 +25,7 @@ train_img_dir = '/kaggle/working/datasets/train/images/'
 train_mask_dir = '/kaggle/working/datasets/train/masks/'
 val_img_dir = '/kaggle/working/datasets/test/images/'
 val_mask_dir = '/kaggle/working/datasets/test/masks/'
-dir_checkpoint = 'models/'
+dir_checkpoint = '/kaggle/working/models/'
 
 
 def get_logger(filename, verbosity=1, name=None):
@@ -78,7 +78,16 @@ def train_net(net,
               save_cp=True,
               n_class=1,
               img_size=448):
-
+    
+    # dataset = get_loader(train_img_dir, train_mask_dir, batchsize=batch_size, trainsize=img_size, augmentation = False)
+    # train_size = int(0.85 * len(dataset))
+    # valid_size = len(dataset) - train_size
+    # train_dataset, valid_dataset = random_split(dataset, [train_size, valid_size])
+    # train_loader = DataLoader(train_dataset, batch_size, shuffle=False, pin_memory=True,
+                              # num_workers=2)
+    # val_loader = DataLoader(valid_dataset, batch_size, shuffle=False, pin_memory=True,
+                              # num_workers=2)
+    
     train_loader = get_loader(train_img_dir, train_mask_dir, batchsize=batch_size, trainsize=img_size, augmentation = False)
     val_loader = get_loader(val_img_dir, val_mask_dir, batchsize=1, trainsize=img_size, augmentation = False)
 
@@ -104,10 +113,10 @@ def train_net(net,
     
     optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=0.9, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, epochs//5, lr/10)
-    if n_class > 1:
-        criterion = nn.CrossEntropyLoss()
-    else:
-        criterion = nn.BCEWithLogitsLoss()
+    # if n_class > 1:
+        # criterion = nn.CrossEntropyLoss()
+    # else:
+        # criterion = nn.BCEWithLogitsLoss()
 
 
     best_dice = 0
@@ -132,17 +141,11 @@ def train_net(net,
                     mask_type = torch.float32 if n_class == 1 else torch.long
                     true_masks = true_masks.to(device=device, dtype=mask_type)
 
-                    masks_pred, edge, fused = net(imgs)
+                    masks_pred = net(imgs)
                     masks_pred = torch.squeeze(masks_pred)
-                    
-                    edge = torch.squeeze(edge)
-                    fused = torch.squeeze(fused)
-                    
                     true_masks = torch.squeeze(true_masks)
-                    loss = loss_fn(fused, true_masks)
-                    #loss2 = loss_fn(edge, true_masks)
-                    #loss3 = loss_fn(fused, true_masks)
-                    #sum_loss = loss1.item() + loss2.item() + loss3.item()
+                    loss = loss_fn(masks_pred, true_masks)
+                    #loss = bce_loss(masks_pred, true_masks)
                     epoch_loss += loss.item()
 
                     pbar.set_postfix(**{'loss (batch)': loss.item()})
