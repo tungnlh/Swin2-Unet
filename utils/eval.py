@@ -50,13 +50,13 @@ def eval_net(net, loader, device, n_class=1):
             imgs = imgs.to(device=device, dtype=torch.float32)
             true_masks = true_masks.to(device=device, dtype=mask_type)
 
-            mask_pred, edge, fused = net(imgs)
+            mask_pred = net(imgs)
 
             if n_class > 1:
                 tot += F.cross_entropy(mask_pred, true_masks).item()
             else:
-                pred = torch.sigmoid(fused)
-                pred = (pred > 0.5).float()
+                pred = torch.sigmoid(mask_pred)
+                pred = (pred > 0.2).float()
                 l, n = dice_coeff(pred, true_masks)
                 tot += l
                 N += n
