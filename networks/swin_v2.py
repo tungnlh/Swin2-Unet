@@ -987,7 +987,7 @@ class UnetDecoder(nn.Module):
         n_blocks=5,
         use_batchnorm=True,
         attention_type=None,
-        center=False,
+        center=True,
     ):
         super().__init__()
 
