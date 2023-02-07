@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # net.to(device=device)
     
     #net = ViT_seg(config, img_size=args.size, num_classes=1).cuda()
-    net = unet_swin(img_size=512,size="swinv2_base_window16_256").cuda()
+    net = unet_swin(img_size=512,size="swinv2_tiny_window16_256").cuda()
     
     if args.load:
         net.load_state_dict(
